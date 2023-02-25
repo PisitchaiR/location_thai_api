@@ -7,8 +7,16 @@ import subDistrict from '../asset/subDistrict.json';
 async function main() {
   province.map(async (province) => {
     console.log(province);
-    await prisma.province.create({
-      data: {
+    await prisma.province.upsert({
+      where: {
+        id: province.id,
+      },
+      update: {
+        id: province.id,
+        nameTh: province.name_th,
+        nameEn: province.name_en,
+      },
+      create: {
         id: province.id,
         nameTh: province.name_th,
         nameEn: province.name_en,
@@ -16,8 +24,17 @@ async function main() {
     });
   });
   district.map(async (district) => {
-    await prisma.district.create({
-      data: {
+    await prisma.district.upsert({
+      where: {
+        id: district.id,
+      },
+      update: {
+        id: district.id,
+        nameTh: district.name_th,
+        nameEn: district.name_en,
+        provinceId: district.province_id,
+      },
+      create: {
         id: district.id,
         nameTh: district.name_th,
         nameEn: district.name_en,
@@ -27,8 +44,18 @@ async function main() {
   });
   subDistrict.map(async (subDistrict) => {
     console.log(subDistrict);
-    await prisma.subDistrict.create({
-      data: {
+    await prisma.subDistrict.upsert({
+      where: {
+        id: subDistrict.id,
+      },
+      create: {
+        id: subDistrict.id,
+        nameTh: subDistrict.name_th,
+        nameEn: subDistrict.name_en,
+        districtId: subDistrict.district_id,
+        zipCode: subDistrict.zip_code,
+      },
+      update: {
         id: subDistrict.id,
         nameTh: subDistrict.name_th,
         nameEn: subDistrict.name_en,

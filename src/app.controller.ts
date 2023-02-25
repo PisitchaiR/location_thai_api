@@ -9,7 +9,7 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get('/provinces')
-  async getHello(): Promise<Province[]> {
+  async getProvinces(): Promise<Province[]> {
     return await this.appService.getProvince();
   }
 
