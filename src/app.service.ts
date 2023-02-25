@@ -1,25 +1,36 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable, HttpStatus } from '@nestjs/common';
 import { PrismaService } from './prisma/prisma.service';
-import { Prisma } from '@prisma/client';
+import { Province, District, SubDistrict } from './dto/app.dto';
 
 @Injectable()
 export class AppService {
   constructor(private prisma: PrismaService) {}
-  async getProvince(): Promise<any[]> {
+
+  async getProvince(): Promise<Province[]> {
     try {
-      return await this.prisma.province.findMany({
+      const province = await this.prisma.province.findMany({
         select: {
           id: true,
           nameEn: true,
           nameTh: true,
         },
       });
+      return province;
     } catch (error) {
-      throw error;
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: 'bad request',
+        },
+        HttpStatus.BAD_REQUEST,
+        {
+          cause: error,
+        },
+      );
     }
   }
 
-  async getDistrictByProvinceId(id: number): Promise<any> {
+  async getDistrictByProvinceId({ id }: { id: number }): Promise<Province> {
     try {
       const districtInProvince = await this.prisma.province.findUniqueOrThrow({
         where: {
@@ -40,11 +51,20 @@ export class AppService {
       });
       return districtInProvince;
     } catch (error) {
-      throw error;
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: 'bad request',
+        },
+        HttpStatus.BAD_REQUEST,
+        {
+          cause: error,
+        },
+      );
     }
   }
 
-  async getDistrict(): Promise<any[]> {
+  async getDistrict(): Promise<District[]> {
     try {
       return await this.prisma.district.findMany({
         select: {
@@ -54,11 +74,24 @@ export class AppService {
         },
       });
     } catch (error) {
-      throw error;
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: 'bad request',
+        },
+        HttpStatus.BAD_REQUEST,
+        {
+          cause: error,
+        },
+      );
     }
   }
 
-  async getSubDistrictByDistrictId(id: number): Promise<any> {
+  async getSubDistrictByDistrictId({
+    id,
+  }: {
+    id: number;
+  }): Promise<SubDistrict> {
     try {
       const subDistrictInDistrict =
         await this.prisma.district.findUniqueOrThrow({
@@ -81,11 +114,20 @@ export class AppService {
         });
       return subDistrictInDistrict;
     } catch (error) {
-      throw error;
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: 'bad request',
+        },
+        HttpStatus.BAD_REQUEST,
+        {
+          cause: error,
+        },
+      );
     }
   }
 
-  async getSubDistrict(): Promise<any[]> {
+  async getSubDistrict(): Promise<SubDistrict[]> {
     try {
       return await this.prisma.subDistrict.findMany({
         select: {
@@ -95,7 +137,16 @@ export class AppService {
         },
       });
     } catch (error) {
-      throw error;
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: 'bad request',
+        },
+        HttpStatus.BAD_REQUEST,
+        {
+          cause: error,
+        },
+      );
     }
   }
 }

@@ -1,8 +1,10 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { AppService } from './app.service';
 import { District, Province, SubDistrict } from './dto/app.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('/api')
+@ApiTags('location')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
@@ -11,9 +13,9 @@ export class AppController {
     return await this.appService.getProvince();
   }
 
-  @Get('/provinces/:id/districts')
+  @Get('/province/:id/districts')
   async getProvinceById(@Param('id') id: number): Promise<Province> {
-    return await this.appService.getDistrictByProvinceId(id);
+    return await this.appService.getDistrictByProvinceId({ id: Number(id) });
   }
 
   @Get('/districts')
@@ -21,9 +23,9 @@ export class AppController {
     return await this.appService.getDistrict();
   }
 
-  @Get('/districts/:id/sub-districts')
+  @Get('/district/:id/sub-districts')
   async getSubDistrictByDistrictId(@Param('id') id: number): Promise<District> {
-    return await this.appService.getSubDistrictByDistrictId(id);
+    return await this.appService.getSubDistrictByDistrictId({ id: Number(id) });
   }
 
   @Get('/sub-districts')
