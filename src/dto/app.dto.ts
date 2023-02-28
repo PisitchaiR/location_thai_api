@@ -3,37 +3,29 @@ import { IsString, IsNumber } from 'class-validator';
 
 export class Province {
   @ApiProperty()
-  @IsNumber()
   id: number;
 
   @ApiProperty()
-  @IsString()
   nameEn: string;
 
   @ApiProperty()
-  @IsString()
   nameTh: string;
 
   @ApiProperty()
-  @IsString()
   district?: District[];
 }
 
 export class District {
   @ApiProperty()
-  @IsNumber()
   id: number;
 
   @ApiProperty()
-  @IsString()
   nameEn: string;
 
   @ApiProperty()
-  @IsString()
   nameTh: string;
 
   @ApiProperty()
-  @IsString()
   provinceId?: number;
 
   @ApiProperty()
@@ -42,19 +34,15 @@ export class District {
 
 export class SubDistrict {
   @ApiProperty()
-  @IsNumber()
   id: number;
 
   @ApiProperty()
-  @IsString()
   nameEn: string;
 
   @ApiProperty()
-  @IsString()
   nameTh: string;
 
   @ApiProperty()
-  @IsString()
   zipCode?: string;
 
   @ApiProperty()

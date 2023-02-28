@@ -23,6 +23,7 @@ async function main() {
       },
     });
   });
+
   district.map(async (district) => {
     await prisma.district.upsert({
       where: {
@@ -42,6 +43,7 @@ async function main() {
       },
     });
   });
+
   subDistrict.map(async (subDistrict) => {
     console.log(subDistrict);
     await prisma.subDistrict.upsert({
